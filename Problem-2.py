@@ -85,12 +85,48 @@ class stage:
 def main():
     #=====로 나눠 2 스테이지를 리스트에 저장
     stages_str=input_str.split("=====\n")
-   
-    st1=stage(stages_str[0])
-    st1.print_stage()
+
     st2=stage(stages_str[1])
     st2.print_stage()
+    
+    orders=list(input())
+    for elem in orders:
+        if elem =='Q' or elem=='q':
+            'Bye~'
+        else:
+            move(st2,elem)  
+
+
+def move(stage,order):
+    dxs,dys=[-1,1,0,0],[0,0,-1,1]
+    order_dic={'W':0,'w':0,'S':1,'s':1,'A':2,'a':2,'D':3,'d':3}
+
+    directions={0:'위로',1:'아래로',2:'왼쪽으로',3:'오른쪽으로'}
+    # 지원하지 않는 명령
+    if order not in order_dic:
+        print(f"{order.upper()}: (경고) 지원하지 않는 명령입니다!")
+    
+    
+
+    #index에 맞게 1씩 빼준다
+    else:
+        r,c=stage.p_location[0]-1,stage.p_location[1]-1
+
+        # order 에 맞게 이동한 위치는 nr,nc
+        nr,nc=r+dxs[order_dic[order]],c+dys[order_dic[order]]
+
+        if stage.map_data[nr][nc]==0:
+            #움직일 수 있을 때
+            stage.map_data[nr][nc]=3
+            stage.map_data[r][c]=0
+            stage.p_location=(nr+1,nc+1)
+            print(f'{order.upper()}: {directions[order_dic[order]]} 이동합니다.')
+
+        else:
+            print(f'{order.upper()}: (경고!) 해당 명령을 수행할 수 없습니다!')
+            #cant move
+                
+    
 
 if __name__=="__main__":
     main()
-
