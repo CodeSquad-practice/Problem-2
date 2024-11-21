@@ -88,13 +88,17 @@ def main():
 
     st2=stage(stages_str[1])
     st2.print_stage()
-    
-    orders=list(input())
-    for elem in orders:
-        if elem =='Q' or elem=='q':
-            'Bye~'
-        else:
-            move(st2,elem)  
+
+    while True:
+        print()
+        orders=list(input('SOKOBAN>'))
+
+        for elem in orders:
+            if elem =='Q' or elem=='q':
+                print('Bye~')
+                break
+            else:
+                move(st2,elem)  
 
 
 def move(stage,order):
@@ -120,9 +124,11 @@ def move(stage,order):
             stage.map_data[nr][nc]=3
             stage.map_data[r][c]=0
             stage.p_location=(nr+1,nc+1)
+            stage.print_stage()
             print(f'{order.upper()}: {directions[order_dic[order]]} 이동합니다.')
 
         else:
+            stage.print_stage()
             print(f'{order.upper()}: (경고!) 해당 명령을 수행할 수 없습니다!')
             #cant move
                 
