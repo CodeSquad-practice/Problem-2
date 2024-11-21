@@ -82,23 +82,30 @@ class stage:
         print("공의 수:",self.balls)
         print(f"플레이어 위치: {self.p_location[0]}행 {self.p_location[1]}열")
 
+    def print_stage_map(self):
+        print()
+        for line in self.map_data:
+            for elem in line:
+                print(self.reverse_parsing_dic[elem],end='')
+            print()
+
+
 def main():
     #=====로 나눠 2 스테이지를 리스트에 저장
     stages_str=input_str.split("=====\n")
 
     st2=stage(stages_str[1])
-    st2.print_stage()
+    print(f'Stage {st2.stage_num}')
+    st2.print_stage_map()
 
     while True:
         print()
         orders=list(input('SOKOBAN>'))
-
+        if orders[0]=='q'or orders[0]=='Q':
+            print('Bye~')
+            break
         for elem in orders:
-            if elem =='Q' or elem=='q':
-                print('Bye~')
-                break
-            else:
-                move(st2,elem)  
+            move(st2,elem)  
 
 
 def move(stage,order):
@@ -108,9 +115,9 @@ def move(stage,order):
     directions={0:'위로',1:'아래로',2:'왼쪽으로',3:'오른쪽으로'}
     # 지원하지 않는 명령
     if order not in order_dic:
-        print(f"{order.upper()}: (경고) 지원하지 않는 명령입니다!")
-    
-    
+        stage.print_stage_map()
+        print()
+        print(f"{order.upper()}: (경고!) 지원하지 않는 명령입니다!")
 
     #index에 맞게 1씩 빼준다
     else:
@@ -124,11 +131,13 @@ def move(stage,order):
             stage.map_data[nr][nc]=3
             stage.map_data[r][c]=0
             stage.p_location=(nr+1,nc+1)
-            stage.print_stage()
+            stage.print_stage_map()
+            print()
             print(f'{order.upper()}: {directions[order_dic[order]]} 이동합니다.')
 
         else:
-            stage.print_stage()
+            stage.print_stage_map()
+            print()
             print(f'{order.upper()}: (경고!) 해당 명령을 수행할 수 없습니다!')
             #cant move
                 

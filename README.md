@@ -29,38 +29,67 @@ print_stage 메서드는 이 클래스의 속성들을 print한다.
 우선 orders를 input 받아 list로 나눈다.  
 그리고 order가 q혹은 Q라면 게임을 끝내고, 그렇지 않다면 move를 한다.
 ## move함수
-move 함수는 다음과 같다.
-```python
-# 우선 stage 객체와 명령어 한개를 인수로 받는다.
-def move(stage,order):
-    #dx dy 테크닉을 위한 리스트 (상하좌우)
-    dxs,dys=[-1,1,0,0],[0,0,-1,1]
-    # 명령어를 int로 변환
-    order_dic={'W':0,'w':0,'S':1,'s':1,'A':2,'a':2,'D':3,'d':3}
-    # 명령어에 따라 print할 내용 
-    directions={0:'위로',1:'아래로',2:'왼쪽으로',3:'오른쪽으로'}
-    # 지원하지 않는 명령일 때
-    if order not in order_dic:
-        print(f"{order.upper()}: (경고) 지원하지 않는 명령입니다!")
-    else:
-        #index에 맞게 1씩 빼준다
-        r,c=stage.p_location[0]-1,stage.p_location[1]-1
+move 함수는 stage 객체와 명령어 한개를 인수로 받고, 그 명령이 가능할 때는 이동하고, 명령이 불가능할 때는 이동하지 않는다.  
+명령이 불가능할 때는, 명령어 중 하나가 아니거나, 이동하려고 하는 자리가 공백이 아닐 때이다.  
+이동하든, 이동하지 않든, 마지막엔 맵과 이동했는지에 대한 여부를 출력한다.
+## input 받기
+반복해서 input을 받고 리스트에 넣고, 리스트마다 move 함수를 반복한다.   
+만약 q 혹은 Q 하나만 명령어에 들어왔다면 게임을 끝낸다. 
 
-        # order 에 맞게 이동한 위치는 nr,nc
-        nr,nc=r+dxs[order_dic[order]],c+dys[order_dic[order]]
-
-        #움직일 수 있을 때
-        if stage.map_data[nr][nc]==0:
-            # 위치 변경
-            stage.map_data[nr][nc]=3
-            stage.map_data[r][c]=0
-            # stage 객체의 p_location 변경
-            stage.p_location=(nr+1,nc+1)
-            # 출력하기
-            print(f'{order.upper()}: {directions[order_dic[order]]} 이동합니다.')
-        # 움직일 수 없을 때
-        else:
-            print(f'{order.upper()}: (경고!) 해당 명령을 수행할 수 없습니다!')
+## 실행결과
 ```
- move 함수는 stage 객체와 명령어 한개를 인수로 받고, 그 명령이 가능할 때는 이동하고, 명령이 불가능할 때는 이동하지 않는다.
- 
+Stage 2
+
+  #######  
+###  O  ###
+#    o    #
+# Oo P oO #
+###  o  ###
+ #   O  #  
+ ########  
+
+SOKOBAN>ddzw
+
+  #######
+###  O  ###
+#    o    #
+# Oo  PoO #
+###  o  ###
+ #   O  #
+ ########
+
+D: 오른쪽으로 이동합니다.
+
+  #######
+###  O  ###
+#    o    #
+# Oo  PoO #
+###  o  ###
+ #   O  #
+ ########
+
+D: (경고!) 해당 명령을 수행할 수 없습니다!
+
+  #######
+###  O  ###
+#    o    #
+# Oo  PoO #
+###  o  ###
+ #   O  #
+ ########
+
+Z: (경고!) 지원하지 않는 명령입니다!
+
+  #######
+###  O  ###
+#    oP   #
+# Oo   oO #
+###  o  ###
+ #   O  #
+ ########
+
+W: 위로 이동합니다.
+
+SOKOBAN>q
+Bye~
+```
