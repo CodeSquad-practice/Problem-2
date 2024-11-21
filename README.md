@@ -20,4 +20,9 @@ stage 클래스는 string으로 된 stage 정보를 받는다.
 생성자는 이 string을 parse 하여 map_data를 만들고, find_attributes 함수를 통해  
 클래스의 속성을 설정한다.
 
+### stage print 메서드
+print_stage 메서드는 이 클래스의 속성들을 print한다.  
+현재 스테이지에는 map_data로 parse되어 있기 때문에, 다시 parse 하여 string형태의   
+맵으로 만들어야 한다. 그렇게 하기 위해 reverse_parse_dic을 만들어 map_data를 다시 parse 하도록 했다.
+
 
